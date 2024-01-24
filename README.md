@@ -11,3 +11,7 @@
 <!-- 'git push' - isstumia lokalius pakeitimus i GitHub sistema -->
 <!-- git push - isstumiam lokalius pakeitimus i GitHub sistema -->
 <!-- git pull - istraukia pakeitimus is GitHub sistemos i lokalia sistema -->
+
+<!-- node index.js - paleidzia faila -->
+<!-- gitingnore - failas kuriame aprasomi failai kuriuos reikia ignoruoti keliant -->
+<!-- npm install - suraso modulius (dependencies) is package.json failo -->
