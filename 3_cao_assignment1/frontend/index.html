@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <ul id="brand-list"></ul>
+    <input id="brand-input" name="brand" placeholder="Enter brand name..." />
+    <button id="new-brand">Add new brand</button>
+    <script>
+      const renderBrandList = (brands) => {
+        const list = document.getElementById("brand-list");
+        list.textContent = "";
+
+        brands.forEach((brand) => {
+          const listItem = document.createElement("li");
+          listItem.textContent = brand;
+          list.append(listItem);
+        });
+      };
+
+      fetch("http://localhost:3000/brands")
+        .then((resp) => resp.json())
+        .then((response) => {
+          renderBrandList(response);
+        })
+        .catch((error) => console.error(error));
+
+      const addBrandButton = document.getElementById("new-brand");
+
+      addBrandButton.addEventListener("click", () => {
+        const nameInput = document.getElementById("brand-input");
+        const body = { brand: nameInput.value };
+
+        fetch("http://localhost:3000/brands", {
+          method: "POST",
+          body: JSON.stringify(body),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        })
+          .then((resp) => resp.json())
+          .then((response) => {
+            renderBrandList(response);
+            nameInput.value = "";
+          })
+          .catch((error) => console.error(error));
+      });
+    </script>
+  </body>
+</html>

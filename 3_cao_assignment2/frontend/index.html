@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <ul id="user-list"></ul>
+    <input
+      id="user-first-input"
+      name="firstName"
+      placeholder="user first name."
+    />
+    <input id="user-last-input" name="lastName" placeholder="user last name." />
+    <button id="new-user">Add new user</button>
+    <script>
+      const renderBrandList = (userNames) => {
+        const list = document.getElementById("user-list");
+        list.textContent = "";
+
+        userNames.forEach((userName) => {
+          const listItem = document.createElement("li");
+          listItem.textContent = userName;
+          list.append(listItem);
+        });
+      };
+
+      fetch("http://localhost:3000/userNames")
+        .then((resp) => resp.json())
+        .then((response) => {
+          renderBrandList(response);
+        })
+        .catch((error) => console.error(error));
+
+      const addBrandButton = document.getElementById("new-user");
+
+      addBrandButton.addEventListener("click", () => {
+        const firstNameInput = document.getElementById("user-first-input");
+        const lastNameInput = document.getElementById("user-last-input");
+        const body = {
+          firstName: firstNameInput.value,
+          lastName: lastNameInput.value,
+        };
+
+        fetch("http://localhost:3000/userNames", {
+          method: "POST",
+          body: JSON.stringify(body),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        })
+          .then((resp) => resp.json())
+          .then((response) => {
+            renderBrandList(response);
+            firstNameInput.value = "";
+            lastNameInput.value = "";
+          })
+          .catch((error) => console.error(error));
+      });
+    </script>
+  </body>
+</html>
