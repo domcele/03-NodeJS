@@ -1,6 +1,9 @@
 const express = require("express"); //importas
+const cors = require("cors"); // importuojam cors moduli
 const app = express(); // sukuriame express aplikacija
 const port = 3000; // uostas
+
+app.use(cors()); // pritaikom cors taisykles
 
 // sukuriame route "/" (kelia), kuriuo uzejus grazinsim (GET metodas) teksta "Hello world"
 app.get("/", (req, res) => {
@@ -18,6 +21,7 @@ app.get("/students", (req, res) => {
   res.send(students);
 });
 
+// paliedziama(listen) aplikacija ant porto(3000)
 app.listen(port, () => {
   console.log(`App is listening on the port ${port}`);
 });

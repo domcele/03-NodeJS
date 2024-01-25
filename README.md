@@ -15,3 +15,7 @@
 <!-- node index.js - paleidzia faila -->
 <!-- gitingnore - failas kuriame aprasomi failai kuriuos reikia ignoruoti keliant -->
 <!-- npm install - suraso modulius (dependencies) is package.json failo -->
+<!-- npm start - paleidzia aplikacija, kuria irasome package.json scripts {}-->
+<!-- nodemon - modulis tikrinantis pasikeitimus ir atnaujinantis serveri (npm install nodemon) -->
+<!-- npm run dev - po nodemon irasymo padaro automatini serverio atnaujinima -->
+<!-- nepamirsti kuriant nauja projekta isidiegti package.json(npm init), express, cors, nodemon -->
