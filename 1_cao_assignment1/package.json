@@ -1,0 +1,10 @@
+{
+  "title": "1_cao_assignment1",
+  "version": "1.0.0",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "casual": "^1.6.2"
+  }
+}
