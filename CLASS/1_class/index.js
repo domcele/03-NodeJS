@@ -21,6 +21,12 @@ app.get("/students", (req, res) => {
   res.send(students);
 });
 
+// ASSIGNMENT
+const users = ["Alex", "Rose", "Megan"];
+app.get("/users", (req, res) => {
+  res.send(users);
+});
+
 // paliedziama(listen) aplikacija ant porto(3000)
 app.listen(port, () => {
   console.log(`App is listening on the port ${port}`);
