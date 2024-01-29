@@ -20,3 +20,4 @@
 <!-- npm run dev - po nodemon irasymo padaro automatini serverio atnaujinima -->
 <!-- nepamirsti kuriant nauja projekta isidiegti package.json(npm init), express, cors, nodemon -->
 <!-- :firstLetter - pavyzdys dinaminio route. Ji galima istraukti naudojant is req.params (pvz: const { firstLetter }) -->
+<!-- app.use(express.json()); - kad butu galima daryti post'us -->
