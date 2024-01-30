@@ -1,12 +1,12 @@
 {
-  "name": "3_cao_assignment2",
+  "name": "2_cao1",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "dev": "nodemon index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon index.js"
   },
   "author": "",
   "license": "ISC",

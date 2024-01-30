@@ -1,5 +1,6 @@
 # Introduction to Node.js
 
+<!-- module.exports = userdata.json - exportas -->
 <!-- ls - atvaizduoja visus folderio failus -->
 <!-- cd - pereina i kita folderi -->
 <!-- cd .. - grizta per viena folderi atgal -->
@@ -21,3 +22,5 @@
 <!-- nepamirsti kuriant nauja projekta isidiegti package.json(npm init), express, cors, nodemon -->
 <!-- :firstLetter - pavyzdys dinaminio route. Ji galima istraukti naudojant is req.params (pvz: const { firstLetter }) -->
 <!-- app.use(express.json()); - kad butu galima daryti post'us -->
+
+<!-- send ir send.json - nelabai kuo skiriasi tik send.json suncia tik butent json faila -->
