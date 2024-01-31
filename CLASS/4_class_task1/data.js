@@ -151,4 +151,4 @@ const data = JSON.parse(`[{
 }]
 `);
 
-module.exports.data;
+module.exports = data;
