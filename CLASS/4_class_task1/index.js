@@ -67,7 +67,7 @@ app.post("/phones", (req, res) => {
   // const { id, brand, name, stock, price } = req.body;
 
   const newPhone = {
-    id: "401",
+    id: ++phonedata.length,
     brand: "Meskafonas Plus",
     name: "tritouzan fiftouzan",
     stock: 4,
