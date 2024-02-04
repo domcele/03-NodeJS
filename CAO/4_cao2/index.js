@@ -24,13 +24,62 @@ app.get("/users", (req, res) => {
 //   "car": "Dodge"
 // }
 
+const object = {
+  id: 2,
+  first_name: "Giffy",
+  last_name: "Bastin",
+  email: "gbastin1@squidoo.com",
+  gender: "Genderfluid",
+  car: "GMC",
+};
+
+console.log(object.car);
+
 // filtravimas
 app.get("/users/car/:brand", (req, res) => {
   const { brand } = req.params;
+
+  // ========= OLD Logic START ============================
+  const filteredUsersOld = [];
+  for (i = 0; i < userdata.length; i++) {
+    user = userdata[i];
+    if (user.car.toLowerCase() === brand.toLocaleLowerCase()) {
+      filteredUsersOld.push(user);
+    }
+  }
+
+  const filteredUsersOld2 = [];
+  for (const user of userdata) {
+    if (user.car.toLowerCase() === brand.toLocaleLowerCase()) {
+      filteredUsersOld2.push(user);
+    }
+  }
+
+  const filteredUsersOld3 = [];
+  userdata.forEach((user) => {
+    if (user.car.toLowerCase() === brand.toLocaleLowerCase()) {
+      filteredUsersOld3.push(user);
+    }
+  });
+
+  // ========= OLD Logic END ============================
+
   const filteredUsers = userdata.filter(
     (user) => user.car.toLowerCase() === brand.toLocaleLowerCase()
   );
-  res.send(filteredUsers);
+
+  const filteredUsers2 = userdata
+    // .filter((user) => user.car.toLowerCase() === brand.toLocaleLowerCase())
+    // .filter((user) => user.gender.toLowerCase() === "male")
+    .filter((user) => {
+      const brancMatches = user.car.toLowerCase() === brand.toLocaleLowerCase();
+      const isMale = user.gender.toLowerCase() === "male";
+
+      return user.car.toLowerCase() === brand.toLocaleLowerCase() && isMale;
+    })
+    .map((user) => user.email);
+
+  res.send(filteredUsers2);
 });
 
 //kad grazintu visus el pastsu 1319@asdk.com
