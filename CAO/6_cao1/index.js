@@ -6,7 +6,7 @@ require('dotenv').config();
 const app = express();
 app.use(express.json());
 
-const URI = 'mongodb+srv://admin:admin@cluster0.pzuvopr.mongodb.net/?retryWrites=true&w=majority';
+const URI = process.env.DB_CONNECTION_STRING;
 const client = new MongoClient(URI);
 
 // find().toArray(); suranda ir grąžinu visus elementus
