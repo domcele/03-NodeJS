@@ -19,6 +19,7 @@ app.get('/', async (req, res) => {
   } catch (err) {
     res.status(500).send({ err });
   }
+  return null;
 });
 
 // .insertOne({ name: 'Giedrius', surname: ...... }); - prideda vieną elementą
@@ -120,6 +121,7 @@ app.delete('/:id', async (req, res) => {
 
 const port = process.env.PORT || 8080;
 app.listen(port, () => {
+  // eslint-disable-next-line no-console
   console.log(`App is listening on the port ${port}`);
 });
 
