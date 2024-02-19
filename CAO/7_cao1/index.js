@@ -8,6 +8,7 @@ app.use(express.json());
 app.use(cors());
 
 const URI = process.env.DB_CONNECTION_STRING;
+const url = 'http://localhost:3000';
 const client = new MongoClient(URI);
 
 // GET all teachers
@@ -31,12 +32,11 @@ app.get('/teachers', async (req, res) => {
 app.post('/teachers', async (req, res) => {
   try {
     const con = await client.connect(); // same
-    const dbRes = await con.db('MyDatabase').collection('Teachers').insertOne({
-      name: 'Giedrius',
-      surname: 'Passatas',
-      job: 'Welder',
-      uni: 'VTDK',
-    });
+    const teacherData = req.body;
+    const dbRes = await con
+      .db('MyDatabase')
+      .collection('Teachers')
+      .insertOne(teacherData);
     await con.close(); // same
     res.send(dbRes); // same
   } catch (err) {
@@ -46,37 +46,39 @@ app.post('/teachers', async (req, res) => {
 
 // GET sorted age
 // eslint-disable-next-line consistent-return
-app.get('/teachers/byoldest', async (req, res) => {
+app.get('/teachers/ages/:sort', async (req, res) => {
   try {
     const con = await client.connect();
+    const { sort } = req.params;
+    const sortParam = sort === 'asc' ? 1 : -1;
     const data = await con
       .db('MyDatabase')
       .collection('Teachers')
       .find()
-      .sort({ age: -1 })
+      .sort({ age: sortParam })
       .toArray();
     await con.close();
-    return res.send(data);
-  } catch (err) {
-    res.status(500).send({ err });
+    return res.send({ data });
+  } catch (error) {
+    res.status(500).send({ error });
   }
 });
 
 // GET jobs by dynamic
 // eslint-disable-next-line consistent-return
-app.get('/teachers/:job', async (req, res) => {
+app.get('/teachers/jobs/:job', async (req, res) => {
   try {
     const con = await client.connect();
-    const teacherJob = req.params.job;
+    const teacherJob = req.params.job; // Access the job parameter using req.params
     const data = await con
       .db('MyDatabase')
       .collection('Teachers')
       .find({ job: teacherJob })
       .toArray();
     await con.close();
-    return res.send(data);
-  } catch (err) {
-    res.status(500).send({ err });
+    return res.send({ data });
+  } catch (error) {
+    res.status(500).send({ error });
   }
 });
 

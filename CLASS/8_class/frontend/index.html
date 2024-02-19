@@ -4,10 +4,35 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/water.css@2/out/dark.css"
-    />
   </head>
-  <body></body>
+  <body>
+    <script>
+      const renderTeachers = (teachers) => {
+        teachers.forEach((teacher) => {
+          const divElement = document.createElement('div');
+          const header = document.createElement('h2');
+          header.textContent = teacher.name;
+
+          const list = document.createElement('ul');
+
+          teacher.students.forEach((student) => {
+            const listItem = document.createElement('li');
+            listItem.textContent = `${student.name} ${student.surname} is ${student.age} years old and studies in (${student.uni} university)`;
+            list.append(listItem);
+          });
+
+          divElement.append(header);
+          divElement.append(list);
+          document.body.append(divElement);
+        });
+      };
+
+      fetch('http://localhost:3000/teachers')
+        .then((resp) => resp.json())
+        .then((response) => {
+          renderTeachers(response);
+        })
+        .catch((error) => console.error(error));
+    </script>
+  </body>
 </html>

@@ -1,9 +1,11 @@
 const express = require('express');
+const cors = require('cors');
 const { MongoClient, ObjectId } = require('mongodb'); // Importuojame iš šio modulio klientą
 require('dotenv').config();
 
 const app = express();
 app.use(express.json());
+app.use(cors());
 const port = process.env.PORT || 8080;
 const URI = process.env.DB_CONNECTION_STRING;
 
@@ -40,23 +42,23 @@ app.get('/students', async (req, res) => {
 });
 
 // metodas kaip prideti objectId be objectId nurodant mongodb (is string i object)
-// app.post('/students', async (req, res) => {
-//   try {
-//     const newStudent = {
-//       ...req.body,
-//       teacherId: new ObjectId(`${req.body.ownerId}`),
-//     };
-//     const con = await client.connect();
-//     const dbRes = await con
-//       .db('MyDatabase')
-//       .collection('Students')
-//       .insertOne(newStudent);
-//     await con.close();
-//     res.send(dbRes);
-//   } catch (err) {
-//     res.status(500).send({ err });
-//   }
-// });
+app.post('/students', async (req, res) => {
+  try {
+    const newStudent = {
+      ...req.body,
+      teacherId: new ObjectId(`${req.body.teacherId}`),
+    };
+    const con = await client.connect();
+    const dbRes = await con
+      .db('MyDatabase')
+      .collection('Students')
+      .insertOne(newStudent);
+    await con.close();
+    res.send(dbRes);
+  } catch (err) {
+    res.status(500).send({ err });
+  }
+});
 
 // TODO aggregate
 app.get('/teachers', async (req, res) => {
@@ -69,15 +71,9 @@ app.get('/teachers', async (req, res) => {
         {
           $lookup: {
             from: 'Students', // The collection to join with
-            localField: 'studentId', // The field from the students collection
-            foreignField: '_id', // The field from the teachers collection
+            localField: '_id', // The field from the students collection
+            foreignField: 'teacherId', // The field from the teachers collection
             as: 'students', // The output array where the joined data will be
-          },
-        },
-        {
-          $unwind: {
-            path: '$students',
-            preserveNullAndEmptyArrays: true, // show students without an owner
           },
         },
       ])
