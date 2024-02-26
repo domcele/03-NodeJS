@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Create membership</title>
+    <script
+      defer
+      src="/CAO/8_cao1/frontend/JS/membershipsaddSCRIPT.js"
+    ></script>
+  </head>
+  <body>
+    <form id="membForm">
+      <input type="text" name="membName" id="membName" placeholder="Name" />
+      <input
+        type="text"
+        name="membPrice"
+        id="membPrice"
+        placeholder="$   Membership Price"
+      />
+      <textarea
+        name="membDescription"
+        id="membDescription"
+        cols="30"
+        rows="10"
+      ></textarea>
+      <button type="button" onclick="window.location.href='memberships.html'">
+        Cancel
+      </button>
+      <button type="submit" id="button">New Membership</button>
+    </form>
+  </body>
+</html>

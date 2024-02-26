@@ -4,10 +4,15 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Memberships</title>
-    <script defer src="membershipsSCRIPT.js"></script>
+    <link rel="stylesheet" href="/CAO/8_cao1/frontend/CSS/memberships.css" />
+    <script defer src="/CAO/8_cao1/frontend/JS/membershipsSCRIPT.js"></script>
   </head>
   <body>
     <header>
+      <a href="memberships.html">Memberships</a>
+      <a href="users.html">Users</a>
+    </header>
+    <article>
       <div>
         <h2>Membership Management</h2>
         <p>
@@ -15,11 +20,12 @@
           not deleting or deactivating packages assigned to active users.
         </p>
       </div>
-      <nav>
-        <button>+ New Membership</button>
-        <!-- linkas i users-->
-      </nav>
-    </header>
+      <div>
+        <button onclick="window.location.href='membershipsadd.html'">
+          + New Membership
+        </button>
+      </div>
+    </article>
     <main>
       <section id="section1">
         <!-- JS and CSS -->

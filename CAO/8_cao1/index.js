@@ -1,6 +1,6 @@
 const express = require('express');
 const cors = require('cors');
-const { MongoClient } = require('mongodb');
+const { MongoClient, ObjectId } = require('mongodb');
 require('dotenv').config();
 
 const app = express();
@@ -10,7 +10,7 @@ app.use(cors());
 const URI = process.env.DB_CONNECTION_STRING;
 const client = new MongoClient(URI);
 
-// GET all teachers
+// GET all memberships
 // eslint-disable-next-line consistent-return
 app.get('/services', async (req, res) => {
   try {
@@ -27,59 +27,138 @@ app.get('/services', async (req, res) => {
   }
 });
 
-// PUT new teacher
-// app.post('/teachers', async (req, res) => {
-//   try {
-//     const con = await client.connect(); // same
-//     const teacherData = req.body;
-//     const dbRes = await con
-//       .db('MyDatabase')
-//       .collection('Teachers')
-//       .insertOne(teacherData);
-//     await con.close(); // same
-//     res.send(dbRes); // same
-//   } catch (err) {
-//     res.status(500).send({ err }); // same
-//   }
-// });
+// PUT new membership
+app.post('/services', async (req, res) => {
+  try {
+    const con = await client.connect();
+    const servicesData = req.body;
+    const dbRes = await con
+      .db('MyDatabase')
+      .collection('services')
+      .insertOne(servicesData);
+    await con.close();
+    res.send(dbRes);
+  } catch (err) {
+    res.status(500).send({ err });
+  }
+});
 
-// // GET sorted age
-// // eslint-disable-next-line consistent-return
-// app.get('/teachers/ages/:sort', async (req, res) => {
-//   try {
-//     const con = await client.connect();
-//     const { sort } = req.params;
-//     const sortParam = sort === 'asc' ? 1 : -1;
-//     const data = await con
-//       .db('MyDatabase')
-//       .collection('Teachers')
-//       .find()
-//       .sort({ age: sortParam })
-//       .toArray();
-//     await con.close();
-//     return res.send({ data });
-//   } catch (error) {
-//     res.status(500).send({ error });
-//   }
-// });
+app.delete('/services/:id', async (req, res) => {
+  try {
+    const con = await client.connect();
+    const idDelete = req.body;
+    const dbRes = await con
+      .db('MyDatabase')
+      .collection('services')
+      .deleteOne(idDelete);
+    await con.close();
+    res.send(dbRes);
+  } catch (err) {
+    res.status(500).send({ err });
+  }
+});
 
-// // GET jobs by dynamic
-// // eslint-disable-next-line consistent-return
-// app.get('/teachers/jobs/:job', async (req, res) => {
-//   try {
-//     const con = await client.connect();
-//     const teacherJob = req.params.job; // Access the job parameter using req.params
-//     const data = await con
-//       .db('MyDatabase')
-//       .collection('Teachers')
-//       .find({ job: teacherJob })
-//       .toArray();
-//     await con.close();
-//     return res.send({ data });
-//   } catch (error) {
-//     res.status(500).send({ error });
-//   }
-// });
+app.get('/users', async (req, res) => {
+  try {
+    const con = await client.connect();
+    const data = await con
+      .db('MyDatabase')
+      .collection('users')
+      .aggregate([
+        {
+          $lookup: {
+            from: 'services', // The collection to join with
+            localField: 'service_id', // The field from the users collection
+            foreignField: '_id', // The field from the teachers collection
+            as: 'services', // The output array where the joined data will be
+          },
+        },
+        {
+          $unwind: {
+            path: '$services',
+            preserveNullAndEmptyArrays: true, // show students without an owner
+          },
+        },
+      ])
+      .toArray();
+    await con.close();
+    res.send(data);
+  } catch (error) {
+    res.status(500).send({ error });
+  }
+});
+
+// GET all users
+// eslint-disable-next-line consistent-return
+app.get('/users', async (req, res) => {
+  try {
+    const con = await client.connect();
+    const data = await con
+      .db('MyDatabase')
+      .collection('users')
+      .find()
+      .toArray();
+    await con.close();
+    return res.send(data);
+  } catch (err) {
+    res.status(500).send({ err });
+  }
+});
+
+// POST new user to membership
+app.post('/users', async (req, res) => {
+  try {
+    const con = await client.connect();
+    const usersData = {
+      ...req.body,
+      service_id: new ObjectId(`${req.body.service_id}`),
+    };
+    const dbRes = await con
+      .db('MyDatabase')
+      .collection('users')
+      .insertOne(usersData);
+    await con.close();
+
+    res.send(dbRes);
+  } catch (err) {
+    res.status(500).send({ err });
+  }
+});
+
+app.get('/users/names/:sort', async (req, res) => {
+  try {
+    const con = await client.connect();
+    const { sort } = req.params;
+    const sortParam = sort === 'asc' ? 1 : -1;
+    const data = await con
+      .db('MyDatabase')
+      .collection('users')
+      .aggregate([
+        {
+          $lookup: {
+            from: 'services',
+            localField: 'service_id',
+            foreignField: '_id',
+            as: 'services',
+          },
+        },
+        {
+          $unwind: {
+            path: '$services',
+            preserveNullAndEmptyArrays: true,
+          },
+        },
+        {
+          $sort: { name: sortParam },
+        },
+      ])
+      .toArray();
+    await con.close();
+    return res.send({ data });
+  } catch (error) {
+    res.status(500).send({ error });
+  }
+});
 
 const port = process.env.PORT || 8080;
 app.listen(port, () => {

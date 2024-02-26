@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Create user</title>
+    <script defer src="/CAO/8_cao1/frontend/JS/usersaddSCRIPT.js"></script>
+  </head>
+  <body>
+    <form id="userForm">
+      <input
+        type="text"
+        name="userName"
+        id="userName"
+        placeholder="First Name"
+      />
+      <input
+        type="text"
+        name="userSurname"
+        id="userSurname"
+        placeholder="Last Name"
+      />
+      <input
+        type="email"
+        name="userEmail"
+        id="userEmail"
+        placeholder="Email Adress"
+      />
+      <select name="userMemb" id="userMemb">
+        <option value="null">-</option>
+      </select>
+      <button type="button" onclick="window.location.href='users.html'">
+        Cancel
+      </button>
+      <button type="submit" id="button">New User</button>
+    </form>
+  </body>
+</html>
